@@ -1,4 +1,7 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
+import 'package:projeto_clima/newDate.dart';
 
 class ListaDatas extends StatefulWidget {
   ListaDatas({Key key, this.title}) : super(key: key);
@@ -37,10 +40,15 @@ class _ListaDatasState extends State<ListaDatas> {
       ),
       body: this._listRoles.isNotEmpty
           ? Center(
-
-              ///COLOCAR LISTBUILDER
-
-              )
+              child: ListView.builder(
+                itemCount: this._listRoles.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text('${this._listRoles[index]}'),
+                  );
+                },
+              ),
+            )
           : Center(
               child: Text(
                 this._listRoles.length.toString() + ' rolês criados no momento',
@@ -49,11 +57,25 @@ class _ListaDatasState extends State<ListaDatas> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/novo');
+          enviaLista(context, _listRoles);
         },
-        tooltip: 'Criar data',
+        tooltip: 'Criar role',
         child: Icon(Icons.add),
       ),
     );
   }
+}
+
+void enviaLista(BuildContext context, lista) async {
+  Navigator.pushNamed(context, '/novo');
+  final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => NovoRole(),
+      ));
+
+  // after the SecondScreen result comes back update the Text widget with it
+  setState(() {
+    lista.push(result);
+  });
 }
