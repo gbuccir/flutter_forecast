@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:projeto_clima/newDate.dart';
 
@@ -23,8 +21,6 @@ class ListaDatas extends StatefulWidget {
 
 class _ListaDatasState extends State<ListaDatas> {
   var _listRoles = [];
-
-  get titulo => this.titulo;
 
   @override
   Widget build(BuildContext context) {
@@ -66,16 +62,16 @@ class _ListaDatasState extends State<ListaDatas> {
   }
 }
 
-void enviaLista(BuildContext context, lista) async {
+void enviaLista(BuildContext context, List lista) async {
   Navigator.pushNamed(context, '/novo');
   final result = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => NovoRole(),
       ));
-
-  // after the SecondScreen result comes back update the Text widget with it
-  setState(() {
-    lista.push(result);
-  });
+  // setState(() {
+  lista.add(result);
+  print(lista);
+  Navigator.pop(context);
+  // });
 }
